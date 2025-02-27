@@ -1,0 +1,15 @@
+.products-container {
+    margin-top: 20px;
+  }
+  .product {
+    border: 1px solid gray;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  .product button {
+    background: blue;
+    color: white;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
