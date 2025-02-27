@@ -2,12 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCart, removeFromCart, increaseQuantity, decreaseQuantity } from "../src/store/cartSlice";
 import "./Cart.css"; 
-
 const Cart = () => {
   const dispatch = useDispatch();
   const { cartItems, isCartVisible } = useSelector(state => state.cart);
 
   if (!isCartVisible) return null; 
+
   return (
     <div className="cart-container">
       <h2>Your Shopping Cart</h2>
