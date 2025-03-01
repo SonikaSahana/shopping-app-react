@@ -46,9 +46,62 @@ const cartSlice = createSlice({
           state.cartItems = state.cartItems.filter((i) => i.id !== action.payload);
         }
       }
+    },
+    setCartData: (state, action) => {
+      state.cartItems = action.payload;
+      state.totalItems = action.payload.reduce((sum, item) => sum + item.quantity, 0);
     }
   }
 });
+
+export const fetchCartData = () => {
+  return async (dispatch) => {
+    dispatch(
+      showNotification({
+        status: "pending",
+        title: "Loading...",
+        message: "Fetching cart data!"
+      })
+    );
+
+    try {
+      const response = await fetch("https://your-api-url.com/cart"); 
+
+      if (!response.ok) {
+        throw new Error("Fetching cart data failed!");
+      }
+
+      const data = await response.json();
+
+      dispatch(setCartData(data)); 
+
+      dispatch(
+        showNotification({
+          status: "success",
+          title: "Success!",
+          message: "Cart loaded successfully!"
+        })
+      );
+
+      setTimeout(() => {
+        dispatch(hideNotification());
+      }, 3000);
+    } catch (error) {
+      dispatch(
+        showNotification({
+          status: "error",
+          title: "Error!",
+          message: "Failed to load cart data!"
+        })
+      );
+
+      setTimeout(() => {
+        dispatch(hideNotification());
+      }, 3000);
+    }
+  };
+};
+
 
 export const sendCartData = (cart) => {
   return async (dispatch) => {
@@ -105,6 +158,7 @@ export const {
   addToCart,
   removeFromCart,
   increaseQuantity,
-  decreaseQuantity
+  decreaseQuantity,
+  setCartData
 } = cartSlice.actions;
 export default cartSlice.reducer;
